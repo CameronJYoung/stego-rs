@@ -11,7 +11,7 @@ pub fn encode_png(message: &str, image_path: &str, output_path: &str) -> Result<
         }
     };
 
-    // Extract RGB binary data
+    // Extract RGB data
     let rgb_img = image.to_rgb8();
 
     // Convert to a nicer type
@@ -62,9 +62,6 @@ pub fn encode_png(message: &str, image_path: &str, output_path: &str) -> Result<
             final_encoded_data.push(rgb_data_bytes[i]);
         }
     }
-
-    println!("Should be {}", image.width() * image.height() * 3);
-    println!("Is {}", final_encoded_data.len());
 
     let new_image: RgbImage = match RgbImage::from_raw(image.width(), image.height(), final_encoded_data) {
         Some(i) => i,
