@@ -8,4 +8,4 @@ name = "stego_png_rs"
 path = "src/lib.rs"
 
 [dependencies]
-photo = "2.5.7"
+image = "0.25.6"
