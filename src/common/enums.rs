@@ -1,3 +1,4 @@
 pub enum EncodingError {
-    BadFile(String)
+    BadFile(String),
+    MessageTooLarge(String)
 }
