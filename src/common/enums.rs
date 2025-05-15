@@ -5,3 +5,11 @@ pub enum EncodingError {
     GenerateFileFailure,
     WriteFileFailure
 }
+
+#[derive(Debug)]
+pub enum DecodingError {
+    BadFile(String),
+    CannotGroupMessageLength,
+    CannotConvertMessageLength,
+    CannotConvertMessageBytes
+}
