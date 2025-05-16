@@ -9,3 +9,4 @@ path = "src/lib.rs"
 
 [dependencies]
 image = "0.25.6"
+hound = "3.5.1"
