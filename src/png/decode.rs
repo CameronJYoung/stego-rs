@@ -11,7 +11,7 @@ pub fn decode_png(image_path: &str) -> Result<String, DecodingError> {
     };
 
     // Extract RGB data
-    let rgb_img = image.to_rgb8();
+    let rgb_img = image.to_rgba8();
 
     // Convert to a nicer type
     let rgb_data_bytes: Vec<u8> = rgb_img.pixels().flat_map(|p| p.0).collect();

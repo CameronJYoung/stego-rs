@@ -1,4 +1,4 @@
-use image::RgbImage;
+use image::{RgbaImage};
 use crate::common::enums::EncodingError;
 use crate::common::utils::{bytes_to_bits, update_byte_lsb};
 
@@ -12,7 +12,7 @@ pub fn encode_png(message: &str, image_path: &str, output_path: &str) -> Result<
     };
 
     // Extract RGB data
-    let rgb_img = image.to_rgb8();
+    let rgb_img = image.to_rgba8();
 
     // Convert to a nicer type
     let rgb_data_bytes: Vec<u8> = rgb_img.pixels().flat_map(|p| p.0).collect();
@@ -63,7 +63,7 @@ pub fn encode_png(message: &str, image_path: &str, output_path: &str) -> Result<
         }
     }
 
-    let new_image: RgbImage = match RgbImage::from_raw(image.width(), image.height(), final_encoded_data) {
+    let new_image: RgbaImage = match RgbaImage::from_raw(image.width(), image.height(), final_encoded_data) {
         Some(i) => i,
         None => return Err(EncodingError::GenerateFileFailure)
     };
