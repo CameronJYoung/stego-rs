@@ -1,9 +1,9 @@
 use crate::common::enums::{DecodingError};
 use crate::common::utils::byte_from_lsb_group;
 
-pub fn decode_png(image_path: &str) -> Result<String, DecodingError> {
+pub fn decode_png(input_path: &str) -> Result<String, DecodingError> {
     // Get the PNG using the image library
-    let image = match image::open(image_path) {
+    let image = match image::open(input_path) {
         Ok(image) => image,
         Err(e) => {
             return Err(DecodingError::BadFile(e.to_string()))
