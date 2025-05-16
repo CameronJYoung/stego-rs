@@ -1,1 +1,1 @@
-# stego-png-rs
+# stego-rs

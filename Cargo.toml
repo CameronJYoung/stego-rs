@@ -1,10 +1,10 @@
 [package]
-name = "stego-png-rs"
+name = "stego-rs"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
-name = "stego_png_rs"
+name = "stego_rs"
 path = "src/lib.rs"
 
 [dependencies]
