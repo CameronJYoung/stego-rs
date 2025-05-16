@@ -2,9 +2,9 @@ use image::{RgbaImage};
 use crate::common::enums::EncodingError;
 use crate::common::utils::{bytes_to_bits, update_byte_lsb};
 
-pub fn encode_png(message: &str, image_path: &str, output_path: &str) -> Result<(), EncodingError> {
+pub fn encode_png(message: &str, input_path: &str, output_path: &str) -> Result<(), EncodingError> {
     // Get the PNG using the image library
-    let image = match image::open(image_path) {
+    let image = match image::open(input_path) {
         Ok(image) => image,
         Err(e) => {
             return Err(EncodingError::BadFile(e.to_string()))
