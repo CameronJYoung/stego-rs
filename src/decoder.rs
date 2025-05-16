@@ -1,19 +1,18 @@
-use crate::common::enums::{DecodingError};
-use crate::image_type::SupportedImageType;
+use crate::common::enums::{DecodingError, SupportedFileType};
 use crate::png::decode::decode_png;
 
-pub struct ImageDecoder {
-    image_type: SupportedImageType
+pub struct StegoDecoder {
+    file_type: SupportedFileType
 }
 
-impl ImageDecoder {
-    pub fn new(image_type: SupportedImageType) -> Self {
-        Self { image_type }
+impl StegoDecoder {
+    pub fn new(file_type: SupportedFileType) -> Self {
+        Self { file_type }
     }
 
     pub fn decode(&self, image_path: &str) -> Result<String, DecodingError> {
-        match self.image_type {
-            SupportedImageType::PNG => decode_png(image_path)
+        match self.file_type {
+            SupportedFileType::PNG => decode_png(image_path)
         }
     }
 }

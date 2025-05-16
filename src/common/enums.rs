@@ -1,3 +1,8 @@
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum SupportedFileType {
+    PNG
+}
+
 #[derive(Debug)]
 pub enum EncodingError {
     BadFile(String),
