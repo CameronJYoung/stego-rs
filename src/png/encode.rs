@@ -15,7 +15,7 @@ pub fn encode_png(message: &str, image_path: &str, output_path: &str) -> Result<
     let rgb_img = image.to_rgb8();
 
     // Convert to a nicer type
-    let mut rgb_data_bytes: Vec<u8> = rgb_img.pixels().flat_map(|p| p.0).collect();
+    let rgb_data_bytes: Vec<u8> = rgb_img.pixels().flat_map(|p| p.0).collect();
 
     // Get actual message bytes
     let message_bytes = message.as_bytes();

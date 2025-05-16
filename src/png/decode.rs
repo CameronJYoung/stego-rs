@@ -14,7 +14,7 @@ pub fn decode_png(image_path: &str) -> Result<String, DecodingError> {
     let rgb_img = image.to_rgb8();
 
     // Convert to a nicer type
-    let mut rgb_data_bytes: Vec<u8> = rgb_img.pixels().flat_map(|p| p.0).collect();
+    let rgb_data_bytes: Vec<u8> = rgb_img.pixels().flat_map(|p| p.0).collect();
 
     // Get the message length from the first 32 bytes of image data
     let message_length_bytes = rgb_data_bytes[..32].to_vec();
