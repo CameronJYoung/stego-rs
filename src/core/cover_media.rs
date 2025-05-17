@@ -18,7 +18,7 @@ pub trait CoverMedia {
     ///
     /// # Returns
     ///
-    /// A result of either Ok or a StegoCoverMediaError
+    /// A result of either Ok or a CoverMediaError
     fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), CoverMediaError>;
 
     /// Reads bytes for a given cover media
@@ -29,6 +29,6 @@ pub trait CoverMedia {
     ///
     /// # Returns
     ///
-    /// A result of either cover media or a `StegoCoverMediaError`
+    /// A result of either cover media or a `CoverMediaError`
     fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, CoverMediaError>;
 }
