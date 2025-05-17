@@ -1,6 +1,6 @@
 use image::RgbaImage;
 use crate::core::cover_media::CoverMedia;
-use crate::core::error::StegoCoverMediaError;
+use crate::core::error::CoverMediaError;
 
 pub struct PngCoverMedia {
     data: Vec<u8>,
@@ -17,12 +17,12 @@ impl PngCoverMedia {
         }
     }
 
-    pub fn open(path: &str) -> Result<Self, StegoCoverMediaError> {
+    pub fn open(path: &str) -> Result<Self, CoverMediaError> {
         // Get the PNG using the image library
         let image = match image::open(path) {
             Ok(image) => image,
             Err(e) => {
-                return Err(StegoCoverMediaError::BadFile(e.to_string()))
+                return Err(CoverMediaError::BadFile(e.to_string()))
             }
         };
 
@@ -39,15 +39,15 @@ impl PngCoverMedia {
         })
     }
 
-    pub fn save(&self, output_path: &str) -> Result<(), StegoCoverMediaError> {
+    pub fn save(&self, output_path: &str) -> Result<(), CoverMediaError> {
         let new_image: RgbaImage = match RgbaImage::from_raw(self.width, self.height, self.data.clone()) {
             Some(i) => i,
-            None => return Err(StegoCoverMediaError::GenerateFileFailure)
+            None => return Err(CoverMediaError::GenerateFileFailure)
         };
 
         match new_image.save(output_path) {
             Ok(_) => Ok(()),
-            Err(_) => return Err(StegoCoverMediaError::WriteFileFailure)
+            Err(_) => return Err(CoverMediaError::WriteFileFailure)
         }
     }
 }
@@ -57,13 +57,13 @@ impl CoverMedia for PngCoverMedia {
         &self.data
     }
 
-    fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), StegoCoverMediaError> {
+    fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), CoverMediaError> {
         self.data.clear();
         self.data.extend_from_slice(new_bytes);
         Ok(())
     }
 
-    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, StegoCoverMediaError> {
+    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, CoverMediaError> {
         Ok(Box::new(Self {
             data: new_bytes.to_vec(),
             height: self.height,

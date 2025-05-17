@@ -1,5 +1,5 @@
 use crate::core::cover_media::CoverMedia;
-use crate::core::error::{StegoStrategyError};
+use crate::core::error::{StrategyError};
 
 /// Defines the interface for steganography strategies. Implementors must provide methods for encoding
 /// and decoding messages into/from a `StegoCoverMedia` implementation.
@@ -14,7 +14,7 @@ pub trait StegoStrategy {
     /// # Returns
     ///
     /// A `Result` containing ok or an error.
-    fn encode(&self, message: &str, media: &mut dyn CoverMedia) -> Result<(), StegoStrategyError>;
+    fn encode(&self, message: &str, media: &mut dyn CoverMedia) -> Result<(), StrategyError>;
 
     /// Decodes a message from the given cover and returns it as a string.
     ///
@@ -25,5 +25,5 @@ pub trait StegoStrategy {
     /// # Returns
     ///
     /// A `Result` containing the message as a string or an error.
-    fn decode(&self, media: &dyn CoverMedia) -> Result<String, StegoStrategyError>;
+    fn decode(&self, media: &dyn CoverMedia) -> Result<String, StrategyError>;
 }
