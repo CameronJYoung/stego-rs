@@ -1,5 +1,5 @@
 use crate::core::bit_utils::{byte_from_lsb_group, bytes_to_bits, update_byte_lsb};
-use crate::core::cover_media::StegoCoverMedia;
+use crate::core::cover_media::CoverMedia;
 use crate::core::error::{StegoStrategyError};
 use crate::core::strategy::StegoStrategy;
 
@@ -12,7 +12,7 @@ impl LsbStrategy {
 }
 
 impl StegoStrategy for LsbStrategy {
-    fn encode(&self, message: &str, media: &mut dyn StegoCoverMedia) -> Result<(), StegoStrategyError> {
+    fn encode(&self, message: &str, media: &mut dyn CoverMedia) -> Result<(), StegoStrategyError> {
         // Read bytes from cover media
         let cover_media_bytes = media.read_bytes();
 
@@ -77,7 +77,7 @@ impl StegoStrategy for LsbStrategy {
         }
     }
 
-    fn decode(&self, media: &dyn StegoCoverMedia) -> Result<String, StegoStrategyError> {
+    fn decode(&self, media: &dyn CoverMedia) -> Result<String, StegoStrategyError> {
         // Read bytes from cover media
         let cover_media_bytes = media.read_bytes();
 
@@ -138,7 +138,7 @@ mod tests {
         }
     }
 
-    impl StegoCoverMedia for MockMedia {
+    impl CoverMedia for MockMedia {
         fn read_bytes(&self) -> &[u8] {
             &self.data
         }
@@ -149,7 +149,7 @@ mod tests {
             Ok(())
         }
 
-        fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn StegoCoverMedia>, StegoCoverMediaError> {
+        fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, StegoCoverMediaError> {
             Ok(Box::new(MockMedia {
                 data: new_bytes.to_vec(),
             }))

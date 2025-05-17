@@ -1,5 +1,5 @@
 use image::RgbaImage;
-use crate::core::cover_media::StegoCoverMedia;
+use crate::core::cover_media::CoverMedia;
 use crate::core::error::StegoCoverMediaError;
 
 pub struct PngCoverMedia {
@@ -52,7 +52,7 @@ impl PngCoverMedia {
     }
 }
 
-impl StegoCoverMedia for PngCoverMedia {
+impl CoverMedia for PngCoverMedia {
     fn read_bytes(&self) -> &[u8] {
         &self.data
     }
@@ -63,7 +63,7 @@ impl StegoCoverMedia for PngCoverMedia {
         Ok(())
     }
 
-    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn StegoCoverMedia>, StegoCoverMediaError> {
+    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, StegoCoverMediaError> {
         Ok(Box::new(Self {
             data: new_bytes.to_vec(),
             height: self.height,

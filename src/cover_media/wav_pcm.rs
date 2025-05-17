@@ -1,5 +1,5 @@
 use hound::{WavReader, WavSpec, WavWriter};
-use crate::core::cover_media::StegoCoverMedia;
+use crate::core::cover_media::CoverMedia;
 use crate::core::error::StegoCoverMediaError;
 
 pub struct WavPcmCoverMedia {
@@ -69,7 +69,7 @@ impl WavPcmCoverMedia {
     }
 }
 
-impl StegoCoverMedia for WavPcmCoverMedia {
+impl CoverMedia for WavPcmCoverMedia {
     fn read_bytes(&self) -> &[u8] {
         &self.data
     }
@@ -80,7 +80,7 @@ impl StegoCoverMedia for WavPcmCoverMedia {
         Ok(())
     }
 
-    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn StegoCoverMedia>, StegoCoverMediaError> {
+    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, StegoCoverMediaError> {
         Ok(Box::new(Self {
             data: new_bytes.to_vec(),
             wav_spec: self.wav_spec
