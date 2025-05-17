@@ -3,7 +3,7 @@ use crate::core::error::{StrategyError};
 
 /// Defines the interface for steganography strategies. Implementors must provide methods for encoding
 /// and decoding messages into/from a `StegoCoverMedia` implementation.
-pub trait StegoStrategy {
+pub trait Strategy {
     /// Encodes a message into the given cover and returns the updated cover media.
     ///
     /// # Arguments

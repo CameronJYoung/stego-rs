@@ -4,7 +4,7 @@ pub mod cover_media;
 
 #[cfg(test)]
 mod tests {
-    use crate::core::strategy::StegoStrategy;
+    use crate::core::strategy::Strategy;
     use crate::cover_media::wav_pcm::WavPcmCoverMedia;
     use crate::strategies::lsb::LsbStrategy;
 

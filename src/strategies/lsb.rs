@@ -1,7 +1,7 @@
 use crate::core::bit_utils::{byte_from_lsb_group, bytes_to_bits, update_byte_lsb};
 use crate::core::cover_media::CoverMedia;
 use crate::core::error::{StrategyError};
-use crate::core::strategy::StegoStrategy;
+use crate::core::strategy::Strategy;
 
 pub struct LsbStrategy;
 
@@ -11,7 +11,7 @@ impl LsbStrategy {
     }
 }
 
-impl StegoStrategy for LsbStrategy {
+impl Strategy for LsbStrategy {
     fn encode(&self, message: &str, media: &mut dyn CoverMedia) -> Result<(), StrategyError> {
         // Read bytes from cover media
         let cover_media_bytes = media.read_bytes();
