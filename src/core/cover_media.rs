@@ -1,8 +1,8 @@
-use crate::core::error::StegoCoverMediaError;
+use crate::core::error::CoverMediaError;
 
 /// Defines the interface for cover media that we intend to encode/decode. Implementors must provide
 /// methods for reading bytes, writing back bytes and creating a clone with new bytes.
-pub trait StegoCoverMedia {
+pub trait CoverMedia {
     /// Reads bytes for a given cover media
     ///
     /// # Returns
@@ -18,8 +18,8 @@ pub trait StegoCoverMedia {
     ///
     /// # Returns
     ///
-    /// A result of either Ok or a StegoCoverMediaError
-    fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), StegoCoverMediaError>;
+    /// A result of either Ok or a CoverMediaError
+    fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), CoverMediaError>;
 
     /// Reads bytes for a given cover media
     ///
@@ -29,6 +29,6 @@ pub trait StegoCoverMedia {
     ///
     /// # Returns
     ///
-    /// A result of either cover media or a `StegoCoverMediaError`
-    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn StegoCoverMedia>, StegoCoverMediaError>;
+    /// A result of either cover media or a `CoverMediaError`
+    fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, CoverMediaError>;
 }

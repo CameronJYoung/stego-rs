@@ -1,7 +1,7 @@
 use crate::core::bit_utils::{byte_from_lsb_group, bytes_to_bits, update_byte_lsb};
-use crate::core::cover_media::StegoCoverMedia;
-use crate::core::error::{StegoStrategyError};
-use crate::core::strategy::StegoStrategy;
+use crate::core::cover_media::CoverMedia;
+use crate::core::error::{StrategyError};
+use crate::core::strategy::Strategy;
 
 pub struct LsbStrategy;
 
@@ -11,8 +11,8 @@ impl LsbStrategy {
     }
 }
 
-impl StegoStrategy for LsbStrategy {
-    fn encode(&self, message: &str, media: &mut dyn StegoCoverMedia) -> Result<(), StegoStrategyError> {
+impl Strategy for LsbStrategy {
+    fn encode(&self, message: &str, media: &mut dyn CoverMedia) -> Result<(), StrategyError> {
         // Read bytes from cover media
         let cover_media_bytes = media.read_bytes();
 
@@ -41,7 +41,7 @@ impl StegoStrategy for LsbStrategy {
         // Check there's enough bytes
         if cover_media_bytes.len() < minimum_media_size_requirement_bytes as usize {
             return Err(
-                StegoStrategyError::MessageTooLarge(
+                StrategyError::MessageTooLarge(
                     format!(
                         "Media has {} bytes. Message requires {y} bytes.",
                         cover_media_bytes.len(),
@@ -73,11 +73,11 @@ impl StegoStrategy for LsbStrategy {
         // Write new bytes to passed in media
         match media.write_bytes(final_encoded_data.as_slice()) {
             Ok(_) => Ok(()),
-            Err(e) => Err(StegoStrategyError::GeneralMediaError(e))
+            Err(e) => Err(StrategyError::GeneralMediaError(e))
         }
     }
 
-    fn decode(&self, media: &dyn StegoCoverMedia) -> Result<String, StegoStrategyError> {
+    fn decode(&self, media: &dyn CoverMedia) -> Result<String, StrategyError> {
         // Read bytes from cover media
         let cover_media_bytes = media.read_bytes();
 
@@ -92,12 +92,12 @@ impl StegoStrategy for LsbStrategy {
                 match byte_slice {
                     Ok(n) => u32::from_be_bytes(n),
                     Err(_) => {
-                        return Err(StegoStrategyError::CannotConvertMessageLength);
+                        return Err(StrategyError::CannotConvertMessageLength);
                     }
                 }
             },
             None => {
-                return Err(StegoStrategyError::CannotGroupMessageLength);
+                return Err(StrategyError::CannotGroupMessageLength);
             }
         };
 
@@ -110,12 +110,12 @@ impl StegoStrategy for LsbStrategy {
                 match String::from_utf8(bytes) {
                     Ok(s) => Ok(s),
                     Err(_) => {
-                        Err(StegoStrategyError::CannotConvertMessageBytes)
+                        Err(StrategyError::CannotConvertMessageBytes)
                     }
                 }
             },
             None => {
-                Err(StegoStrategyError::CannotConvertMessageBytes)
+                Err(StrategyError::CannotConvertMessageBytes)
             },
         }
     }
@@ -123,7 +123,7 @@ impl StegoStrategy for LsbStrategy {
 
 #[cfg(test)]
 mod tests {
-    use crate::core::error::StegoCoverMediaError;
+    use crate::core::error::CoverMediaError;
     use super::*;
 
     struct MockMedia {
@@ -138,18 +138,18 @@ mod tests {
         }
     }
 
-    impl StegoCoverMedia for MockMedia {
+    impl CoverMedia for MockMedia {
         fn read_bytes(&self) -> &[u8] {
             &self.data
         }
 
-        fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), StegoCoverMediaError> {
+        fn write_bytes(&mut self, new_bytes: &[u8]) -> Result<(), CoverMediaError> {
             self.data.clear();
             self.data.extend_from_slice(new_bytes);
             Ok(())
         }
 
-        fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn StegoCoverMedia>, StegoCoverMediaError> {
+        fn clone_with_bytes(&self, new_bytes: &[u8]) -> Result<Box<dyn CoverMedia>, CoverMediaError> {
             Ok(Box::new(MockMedia {
                 data: new_bytes.to_vec(),
             }))
@@ -175,7 +175,7 @@ mod tests {
         assert_eq!(
             lsb_strategy.encode(large_str, &mut media).err(),
             Some(
-                StegoStrategyError::MessageTooLarge("Media has 1024 bytes. Message requires 1248 bytes.".to_string())
+                StrategyError::MessageTooLarge("Media has 1024 bytes. Message requires 1248 bytes.".to_string())
             )
         );
     }
