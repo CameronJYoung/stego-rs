@@ -1,16 +1,16 @@
 /// Members are different strategy specific errors
 #[derive(Debug, Eq, PartialEq)]
-pub enum StegoStrategyError {
+pub enum StrategyError {
     MessageTooLarge(String),
     CannotConvertMessageLength,
     CannotGroupMessageLength,
     CannotConvertMessageBytes,
-    GeneralMediaError(StegoCoverMediaError)
+    GeneralMediaError(CoverMediaError)
 }
 
 /// Members are different cover media specific errors
 #[derive(Debug, Eq, PartialEq)]
-pub enum StegoCoverMediaError {
+pub enum CoverMediaError {
     BadFile(String),
     GenerateFileFailure,
     WriteFileFailure
@@ -18,6 +18,6 @@ pub enum StegoCoverMediaError {
 
 /// Members are different generic errors
 #[derive(Debug, Eq, PartialEq)]
-pub enum StegoGenericError {
+pub enum GenericError {
 
 }
